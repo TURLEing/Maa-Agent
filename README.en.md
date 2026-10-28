@@ -65,7 +65,7 @@ Ask an agent with local terminal access to read [AGENTS.md](./AGENTS.md), then g
 
 > Observe the game and check my roster first. Find an H8-1 strategy suitable for my owned operators, verify its stage and skill/level requirements, then execute it and confirm a three-star clear from the settlement screen. Do not spend Originite Prime.
 
-Maa-Agent does not include a model or require model-provider credentials. Bring your own agent. The current interface is a CLI; an MCP server is not implemented yet.
+Maa-Agent does not include a model or require model-provider credentials. Bring your own agent. Have your agent read this README and the [agent guide](./AGENTS.md), and it will know how to get started!
 
 ## Usage
 
