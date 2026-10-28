@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maa-agent"
+version = "0.1.0"
+description = "Observed, bounded MAA tasks for agents"
+requires-python = ">=3.11"
+dependencies = ["maafw==5.14.3", "Pillow>=11,<14"]
+
+[project.scripts]
+maa-agent = "maa_agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["maa_agent*"]

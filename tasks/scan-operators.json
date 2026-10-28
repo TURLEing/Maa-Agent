@@ -1,0 +1,9 @@
+{
+  "tasks": [
+    {
+      "name": "识别当前账号干员",
+      "type": "OperBox",
+      "params": {"enable": true}
+    }
+  ]
+}

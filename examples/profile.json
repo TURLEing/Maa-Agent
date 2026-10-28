@@ -1,0 +1,11 @@
+{
+  "connection": {
+    "preset": "ADB",
+    "adb_path": "PATH_TO_ADB",
+    "device": "127.0.0.1:PORT",
+    "config": "General"
+  },
+  "instance_options": {
+    "touch_mode": "MaaTouch"
+  }
+}

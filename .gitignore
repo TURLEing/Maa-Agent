@@ -1,0 +1,12 @@
+.venv/
+.runtime/
+data/
+debug/
+tmp/
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+.env*
+*.local.*
