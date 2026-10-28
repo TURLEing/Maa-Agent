@@ -1,9 +1,14 @@
 {
   ".gitignore": "da0bc9e9525b1cd1d44d273df37b269c74c6214faca54a99959a705d4f753d05",
   "AGENTS.md": "3ed5d3028062e0e69d64b580ea569933036d57de9ea83ba140e03bd4172d1b52",
+  "LICENSE": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+  "README.en.md": "9e852049f90a2c04c1b4b3a06182367c7143f5b2fd7d2a1be4058f1a34b798a8",
+  "README.md": "14c848965106247e569f02781491ed2a5d0297cf2cff3d48e217202aa9b0a3a9",
+  "THIRD_PARTY_NOTICES.md": "8e5a78b58e22dfae42f81ca71187b5b69cdebd4cba5866454294cfe81c9e5faf",
   "docs/configuration.md": "3018363f6845cc23889d342eb5e96639e97335801a8665487c4be91defa4a3b1",
   "docs/onboarding.md": "d1c638bd505c21bfeb6680b4be12d374816052fcf824ab702bf9c1b874e58857",
   "examples/profile.json": "d9a05ca3481dfbca71b0864d9a406645c927bd06f4227443583478c896d0403f",
+  "logo.png": "7473eab2dd4065745f6abfb572d9712f9ed1dbe4852ec730cd80003fd9c66fda",
   "maa_agent/__init__.py": "67cf0b9b43922d0ec0c961517196b697c928ed51a452e1137c58c6e1483ab6f3",
   "maa_agent/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
   "maa_agent/cli.py": "042b7e7dccca9bdf91b3948510ab6de8266b7c2a6c0b4499cdcbd41ab5702ef8",
@@ -11,11 +16,9 @@
   "maa_agent/runner.py": "916d954e82257ccfe73b0a1603cc46bf0b9a89b2a457df77893768d3c5866d42",
   "maa_agent/state.py": "358f992fe8f33f0c1664b3418e62339985aa394b04ca7837e7b72ecf323d3317",
   "maa_agent/vision.py": "0750383a5e326fd5a20b8aee7bb7494b560994c261433ff63f2aac958f0fc0df",
-  "pyproject.toml": "29567f209523f3f90eedf72aa16a262bde0edfd82ece9b8c6349f9b85b954313",
-  "README.md": "9cadccb756c100eb031e22836e0547111fef8663c59961e3acfd6af9c81d9614",
+  "pyproject.toml": "51726b39649003da4c58086874eac82a04853787e7da997e43f7fb18b3fe2d38",
   "scripts/operator_roster.py": "d6c9adb6da83ac9ba034cf0ce1cf5c833c8145688ca569b3f9bb6f1a1630325f",
   "tasks/scan-operators.json": "d309328f5a2a224e7d0bddb1310bda728bcca2795a604ed8319707f9d63500fe",
   "tests/test_harness.py": "dcbc7f6e6dcd8c18e9f6c8701cf4bd6884d57bfe6ec47bae09ebd0f99f3785bc",
-  "tests/test_operator_roster.py": "c7152c9bbfdfdae2363e36e90cd1ac4e6eeec9ebb318b4e2f076b3d1254c50ee",
-  "THIRD_PARTY_NOTICES.md": "512724ce0c0e62447b1a3050311cbfeb21908815d25c41017e5b3822bf1b73a1"
+  "tests/test_operator_roster.py": "c7152c9bbfdfdae2363e36e90cd1ac4e6eeec9ebb318b4e2f076b3d1254c50ee"
 }

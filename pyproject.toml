@@ -1,11 +1,14 @@
 [build-system]
-requires = ["setuptools>=75"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "maa-agent"
 version = "0.1.0"
 description = "Observed, bounded MAA tasks for agents"
+readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.11"
 dependencies = ["maafw==5.14.3", "Pillow>=11,<14"]
 
