@@ -29,7 +29,7 @@ Our long-term goal is to adapt strategies to your own roster, complete event sta
 
 - **Game observation**: screenshots, OCR, and page classification help agents inspect the game before acting.
 - **Operator records**: scan owned operators through MAA and combine PRTS metadata with names, levels, elite phases, classes, and subclasses. Retain both the full roster and an Elite 2 list.
-- **Battle execution**: run local Copilot JSON with run IDs, polling, cancellation, and conditional battle resumption.
+- **Community strategies**: let your agent find strategies on community websites, adapt their teams and battle plans to your operator roster, and execute them in-game.
 - **Outcome verification**: distinguish executor completion from a game clear using evidence such as settlement stars and annihilation kill counts. Uncertain outcomes remain unknown.
 - **Agent integration**: JSON CLI output and [AGENTS.md](./AGENTS.md) document strategy search, requirement checks, and operator substitution reasoning.
 
