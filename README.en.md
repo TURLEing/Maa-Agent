@@ -85,9 +85,17 @@ Run `python -m maa_agent --help` for full arguments.
 
 ## Progress
 
-JT8-3 and H8-1 have been completed on a real emulator with owned teams and screenshot-verified three-star results. This is limited validation, not a guarantee for arbitrary stages.
-
-Planned areas include one-command setup and account binding, roster-based strategy matching, substitution evaluation, operator training, event planning, Integrated Strategies decisions, and an MCP interface.
+- [x] Game screenshots, OCR, and page recognition
+- [x] Operator scanning, roster records, and an Elite 2 list
+- [x] Agent-led online strategy search and roster-based team and strategy adjustments
+- [x] Strategy execution, polling, cancellation, and conditional battle resumption
+- [x] Outcome verification using settlement screens
+- [ ] One-command roster setup and account binding
+- [ ] Automated strategy matching and operator substitution evaluation tools
+- [ ] Operator training tasks
+- [ ] Event stage planning and consecutive clears
+- [ ] Situational analysis and autonomous decisions in Integrated Strategies
+- [ ] MCP interface
 
 ## Contributing
 
