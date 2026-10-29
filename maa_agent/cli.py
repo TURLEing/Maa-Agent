@@ -56,6 +56,9 @@ def main():
     query.add_argument('--observe',action='store_true',help='Attach fresh read-only game observation')
     cancel = sub.add_parser('cancel')
     cancel.add_argument('run_id')
+    leave = sub.add_parser('exit-battle', help='Stop the executor, abandon combat, and close settlement')
+    leave.add_argument('--run-id', help='Worker to cancel before interacting with the game')
+    leave.add_argument('--expected-stage', help='Reopen and verify this stage after exiting')
     verify = sub.add_parser('verify')
     verify.add_argument('--expected-kills',type=int,default=400)
     hidden = sub.add_parser('_worker',help=argparse.SUPPRESS)
@@ -78,6 +81,25 @@ def main():
                 raise ValueError('Unknown run')
             (folder / 'cancel').touch()
             result = {'executor':'cancellation_requested','game_stopped':False,'next':'poll_then_observe'}
+        elif args.command == 'exit-battle':
+            from .battle_exit import exit_battle
+            from .runner import cancel_and_wait
+            from .vision import Vision
+            executor = cancel_and_wait(args.run_id) if args.run_id else None
+            folder = RUNTIME / 'navigation' / uuid4().hex
+            from .config import write_json
+            with device_lock():
+                vision = Vision(Settings.load())
+                result = exit_battle(vision)
+                result['executor'] = executor
+                result['evidence_dir'] = str(folder)
+                write_json(folder / 'exit.json', result)
+                if result['exit_verified'] and args.expected_stage:
+                    try:
+                        result['stage'] = vision.open_stage(args.expected_stage)
+                    except Exception as error:
+                        result['error'] = f'exit_succeeded_but_stage_not_verified: {error}'
+                write_json(folder / 'exit.json', result)
         elif args.command == 'run-copilot':
             task,stage_id = copilot_request(args.file)
             result = start_job(task, {'kind':'copilot','expected_stage':args.expected_stage,

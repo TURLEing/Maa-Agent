@@ -23,7 +23,7 @@ An Arknights agent toolkit built on maa-cli and MaaFramework
 
 Maa-Agent gives agents with local command access tools to observe Arknights, maintain operator records, run battle scripts, and verify outcomes. The agent interprets tasks, selects strategies, and investigates problems; maa-cli executes automation; MaaFramework provides screenshots, recognition, and additional interaction.
 
-Our long-term goal is to adapt strategies to your own roster, complete event stages autonomously, and make situational decisions in Integrated Strategies. This project is currently **Alpha**; those goals are not all implemented.
+Our ultimate vision is to adapt strategies to your own roster, complete event stages autonomously, clear Integrated Strategies through situational decisions, and **reach the summit of Contingency Contract!** This project is currently **Alpha**; those goals are not all implemented.
 
 ## Features
 
@@ -79,6 +79,7 @@ Run `python -m maa_agent --help` for full arguments.
 | `run-copilot FILE --expected-stage NAME` | Execute a local battle script |
 | `poll RUN_ID --observe` | Poll a run and observe the game |
 | `cancel RUN_ID` | Stop the executor; does not retreat from battle |
+| `exit-battle --run-id RUN_ID --expected-stage CODE` | Stop execution, exit combat, and verify the returned stage page; [details (Chinese)](./docs/battle-exit.md) |
 | `resume --parent RUN_ID --actions FILE` | Resume actions when the parent executor has stopped and battle is still active |
 
 `run-copilot` modifies squad slot 4 and may consume normal sanity. Support units and sanity potions are disabled. Stage navigation starts from the current chapter map; arbitrary chapter selection is not supported. Run evidence defaults to `.runtime/`. Keep account records, screenshots, logs, and local configuration out of commits.
@@ -89,12 +90,14 @@ Run `python -m maa_agent --help` for full arguments.
 - [x] Operator scanning, roster records, and an Elite 2 list
 - [x] Agent-led online strategy search and roster-based team and strategy adjustments
 - [x] Strategy execution, polling, cancellation, and conditional battle resumption
+- [x] Continuous battle exit and verification of the returned stage page
 - [x] Outcome verification using settlement screens
 - [ ] One-command roster setup and account binding
 - [ ] Automated strategy matching and operator substitution evaluation tools
 - [ ] Operator training tasks
 - [ ] Event stage planning and consecutive clears
 - [ ] Situational analysis and autonomous decisions in Integrated Strategies
+- [ ] Reach the summit of Contingency Contract
 - [ ] MCP interface
 
 ## Contributing

@@ -20,6 +20,9 @@ No model provider credentials are required by this project.
    not game_result=full_clear. Use screenshot evidence and actual settlement stars.
 7. If still in battle, observe before deciding whether to resume. Cancellation
    is not retreat. A resume requires stopped parent execution and an active battle.
+   To abandon a run, use `exit-battle --run-id RUN_ID --expected-stage CODE`.
+   Require `exit_verified:true` and `stage.stage_verified:true` before restarting.
+   See docs/battle-exit.md for optional arguments, evidence, and limitations.
 8. On unknown results, retain evidence and investigate; do not loop blind clicks
    or repeatedly spend sanity. Do not spend premium currency or use unrelated tasks.
 

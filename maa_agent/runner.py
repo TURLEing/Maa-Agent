@@ -100,6 +100,9 @@ def worker(run_id):
     try:
         settings = Settings.load()
         with device_lock():
+            if (folder / 'cancel').exists():
+                result.update(executor='cancelled', game_stopped=False)
+                return
             vision = Vision(settings)
             before = vision.observe()
             context = request['context']
@@ -116,6 +119,9 @@ def worker(run_id):
                     raise ValueError('precondition_failed: resume requires active battle and matching parent stage')
             result.update(executor='running', preflight_passed=True)
             write_json(folder / 'result.json', result)
+            if (folder / 'cancel').exists():
+                result.update(executor='cancelled', game_stopped=False)
+                return
             result.update(execute(settings, request['task'], folder, request['timeout']))
             after = vision.observe()
             # A successful CLI can exit during the black transition before settlement.
@@ -147,3 +153,18 @@ def poll(run_id):
     if (folder / 'verification.json').exists():
         result['verification'] = json.loads((folder / 'verification.json').read_text(encoding='utf-8'))
     return result
+
+
+def cancel_and_wait(run_id, timeout=30):
+    """Wait for the worker's terminal result before another device operation."""
+    folder = run_folder(run_id)
+    if not (folder / 'request.json').exists():
+        raise ValueError('Unknown run')
+    (folder / 'cancel').touch()
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        result = poll(run_id)
+        if result['executor'] in ('completed', 'failed', 'cancelled', 'timed_out', 'error'):
+            return result['executor']
+        time.sleep(.25)
+    raise TimeoutError('executor_stop_not_verified: no game inputs sent')
