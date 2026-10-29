@@ -23,7 +23,7 @@ An Arknights agent toolkit built on maa-cli and MaaFramework
 
 Maa-Agent gives agents with local command access tools to observe Arknights, maintain operator records, run battle scripts, and verify outcomes. The agent interprets tasks, selects strategies, and investigates problems; maa-cli executes automation; MaaFramework provides screenshots, recognition, and additional interaction.
 
-Our ultimate vision is to adapt strategies to your own roster, complete event stages autonomously, clear Integrated Strategies through situational decisions, and **reach the summit of Contingency Contract!** This project is currently **Alpha**; those goals are not all implemented.
+Our ultimate vision is to adapt strategies to your own roster, complete event stages autonomously, clear Integrated Strategies through situational decisions, and reach the summit of Contingency Contract! This project is currently in **Alpha**; those goals are not all implemented.
 
 ## Features
 
@@ -97,8 +97,7 @@ Run `python -m maa_agent --help` for full arguments.
 - [ ] Operator training tasks
 - [ ] Event stage planning and consecutive clears
 - [ ] Situational analysis and autonomous decisions in Integrated Strategies
-- [ ] Reach the summit of Contingency Contract
-- [ ] MCP interface
+- [ ] Contingency Contract
 
 ## Contributing
 
@@ -108,10 +107,8 @@ Report issues through [GitHub Issues](https://github.com/TURLEing/Maa-Agent/issu
 .venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-Simplified Chinese is the primary documentation language. Please keep both README versions in sync when changing feature descriptions.
+Simplified Chinese is the primary documentation language. The English version is available in [README.en.md](./README.en.md).
 
 ## Acknowledgments and license
 
-Thanks to [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights), [maa-cli](https://github.com/MaaAssistantArknights/maa-cli), [MaaFramework](https://github.com/MaaXYZ/MaaFramework), [PRTS Wiki](https://prts.wiki/), [PRTS Copilot](https://prts.plus/), and their contributors. The README layout takes inspiration from MAA. Maa-Agent is an independent community project.
-
-Project code is licensed under [GNU AGPL v3.0 (AGPL-3.0-only)](./LICENSE). Third-party dependencies, data, battle scripts, and game-related artwork remain subject to their respective rights and terms. See [third-party notices](./THIRD_PARTY_NOTICES.md).
+Thanks to [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights), [maa-cli](https://github.com/MaaAssistantArknights/maa-cli), [MaaFramework](https://github.com/MaaXYZ/MaaFramework), [PRTS Wiki](https://prts.wiki/), [PRTS Copilot](https://prts.plus/), and their contributors. Maa-Agent is an independent community project licensed under [GNU AGPL v3.0 (AGPL-3.0-only)](./LICENSE). Third-party dependencies, data, battle scripts, and game-related artwork remain subject to their respective rights and terms. See [third-party notices](./THIRD_PARTY_NOTICES.md).
