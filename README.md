@@ -23,7 +23,7 @@
 
 Maa-Agent 为能够执行本地命令的 Agent 提供观察游戏、维护干员档案、运行作业和核验战果的工具。Agent 负责理解任务、挑选作业和分析异常；maa-cli 负责执行自动化任务；MaaFramework 提供截图、识别与必要的交互。
 
-我们的终极愿景：根据自己的干员调整作业、自主完成活动关卡、结合局势思考并通关肉鸽，以及**危机合约登顶！** 目前为 **Alpha**，这些长期目标尚未全部实现。
+我们的终极愿景：根据自己的干员调整作业、自主完成活动关卡、结合局势思考并通关肉鸽，以及危机合约登顶！ 目前为 **Alpha** 版本，这些长期目标尚未全部实现。
 
 ## 亮点功能
 
@@ -97,21 +97,18 @@ Maa-Agent 本身不内置模型，也不要求模型服务密钥；Agent 由你�
 - [ ] 干员养成任务
 - [ ] 活动关卡规划与连续攻略
 - [ ] 肉鸽局势分析与自主决策
-- [ ] 危机合约登顶
-- [ ] MCP 接口
-
+- [ ] 危机合约
+      
 ## 参与开发
 
-欢迎通过 [Issues](https://github.com/TURLEing/Maa-Agent/issues) 反馈问题或提交 Pull Request。复现信息请注明工具版本、游戏页面与相关命令，并移除账号及个人信息。
+欢迎通过 [Issues](https://github.com/TURLEing/Maa-Agent/issues) 反馈问题或提交 Pull Request。复现信息请注明工具版本、游戏页面与相关命令，移除账号及个人信息。
 
 ```powershell
 .venv\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
-简体中文为主要文档语言，英文入口为 [README.en.md](./README.en.md)。修改功能说明时请同步两份 README。
+简体中文为主要文档语言，英文入口为 [README.en.md](./README.en.md)。
 
 ## 致谢与许可
 
-感谢 [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights)、[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)、[MaaFramework](https://github.com/MaaXYZ/MaaFramework)、[PRTS Wiki](https://prts.wiki/) 与 [PRTS 作业站](https://prts.plus/) 及其贡献者。首页布局参考 MAA。Maa-Agent 是独立社区项目。
-
-项目代码采用 [GNU AGPL v3.0（AGPL-3.0-only）](./LICENSE)。第三方依赖、数据、作业及游戏相关素材的权利仍归各自权利人，详见 [第三方说明](./THIRD_PARTY_NOTICES.md)。
+感谢 [MAA](https://github.com/MaaAssistantArknights/MaaAssistantArknights)、[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)、[MaaFramework](https://github.com/MaaXYZ/MaaFramework)、[PRTS Wiki](https://prts.wiki/) 与 [PRTS 作业站](https://prts.plus/) 及其贡献者。Maa-Agent 是独立社区项目，项目代码采用 [GNU AGPL v3.0（AGPL-3.0-only）](./LICENSE)。第三方依赖、数据、作业及游戏相关素材的权利仍归各自权利人，详见 [第三方说明](./THIRD_PARTY_NOTICES.md)。
