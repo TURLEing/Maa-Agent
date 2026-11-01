@@ -8,7 +8,7 @@ from maa_agent.state import interpret, verdict
 from maa_agent.cli import copilot_request
 from maa_agent.runner import run_folder
 from maa_agent import runner
-from maa_agent.vision import Vision
+from maa_agent.vision import Vision, stage_header_evidence
 
 
 def word(text,x=900,y=100,w=100,score=.99):
@@ -16,6 +16,36 @@ def word(text,x=900,y=100,w=100,score=.99):
 
 
 class StateTests(unittest.TestCase):
+    def test_chinese_mission_failure(self):
+        result = interpret([word('任务失败')])
+        self.assertEqual(result['state'], 'failure')
+        self.assertEqual(verdict(result), 'failed')
+
+    def test_header_normalization_preserves_source(self):
+        words = [word('ZX—|')]
+        evidence = stage_header_evidence(words, [])
+        self.assertEqual(evidence[0]['text'], 'ZX-1')
+        self.assertEqual(evidence[0]['source_text'], 'ZX—|')
+        self.assertEqual(words[0]['text'], 'ZX—|')
+
+    def test_metadata_resolves_stylized_code_without_activity_constants(self):
+        metadata = [{'code':'AB-10','name':'Example title'}]
+        words = [word('AB-亻O', score=.78), word('Example title',y=120)]
+        result = stage_header_evidence(words, metadata)
+        self.assertEqual([w['text'] for w in result], ['AB-10'])
+        self.assertEqual(result[0]['source'], 'stage_title_metadata')
+
+    def test_metadata_rejects_ambiguity_conflicts_and_map_text(self):
+        metadata = [{'code':'AB-1','name':'Same title'}]
+        words = [word('AB-?'), word('Same title',y=120)]
+        for extra in ([{'code':'AB-2','name':'Same title'}], []):
+            candidate_words = words if extra else words + [word('AB-2')]
+            self.assertEqual(stage_header_evidence(candidate_words,metadata+extra), [])
+        self.assertEqual(stage_header_evidence([word('AB-?',x=100,y=300),word('Same title',x=100,y=340)],metadata), [])
+        self.assertEqual(stage_header_evidence([word('AB-?',score=.74),word('Same title')],metadata), [])
+        self.assertEqual(stage_header_evidence([word('AB-?'),word('Same title',score=.79)],metadata), [])
+        self.assertEqual(stage_header_evidence([word('CD-?'),word('Same title')],metadata), [])
+
     def test_partial_success_is_not_full_clear(self):
         observation = interpret([word('作战简报'),word('已歼灭398',900,400),word('已攻入敌方数2',900,350),word('剩余防御点数8',900,300)])
         self.assertEqual(verdict(observation),'partial_clear')

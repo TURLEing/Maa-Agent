@@ -28,3 +28,7 @@ No model provider credentials are required by this project.
 
 Default evidence is .runtime/ in this checkout; MAA_AGENT_RUNTIME_DIR overrides it.
 Keep generated rosters, screenshots, logs and local configuration out of commits.
+
+Screen-coordinate Copilot actions: see [docs/copilot-actions.md](docs/copilot-actions.md).
+Inspect the normalized game image, camera state and author requirements before
+using Click/Swipe scripts; in-bounds coordinates alone do not establish a valid target.

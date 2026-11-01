@@ -1,5 +1,6 @@
 """MaaFramework screenshot/OCR/template matching. Never uses desktop automation."""
 from datetime import datetime, timezone
+import json
 import shutil
 import re
 import time
@@ -17,6 +18,37 @@ def wait(job, seconds=30):
     if not job.succeeded:
         raise RuntimeError('Framework operation failed')
     return job
+
+
+def stage_header_evidence(words, metadata):
+    """Infer codes only from header evidence; keep original OCR untouched."""
+    header = [w for w in words if w.get('score', 0) >= .75
+              and w['box'][0] >= 750 and 65 <= w['box'][1] <= 145]
+    evidence = []
+    direct_codes = set()
+    prefixes = set()
+    for word in header:
+        text = word['text'].translate(str.maketrans({'—':'-', '–':'-'}))
+        prefix = re.match(r'([A-Z]+\d*|\d+)-', text)
+        if prefix:
+            prefixes.add(prefix[1])
+        if word['score'] >= .8 and re.fullmatch(r'(?:[A-Z]+\d*|\d+)-[\d|Il]+', text):
+            start, _, suffix = text.rpartition('-')
+            code = start + '-' + suffix.translate(str.maketrans({'|':'1','I':'1','l':'1'}))
+            direct_codes.add(code)
+            evidence.append({**word, 'text':code, 'source_text':word['text'], 'source':'stage_header_ocr'})
+    titles = [w for w in header if w['score'] >= .8]
+    candidates = {(m.get('code'), m.get('name')) for m in metadata
+                  if isinstance(m.get('code'), str) and m['code'].rpartition('-')[0] in prefixes
+                  and any(w['text'] == m.get('name') for w in titles)}
+    codes = {code for code, _ in candidates}
+    if len(direct_codes) > 1 or len(codes) > 1 or (codes and direct_codes and codes != direct_codes):
+        return []
+    if len(candidates) == 1:
+        code, title = next(iter(candidates))
+        word = next(w for w in titles if w['text'] == title)
+        evidence.append({**word, 'text':code, 'source_text':word['text'], 'source':'stage_title_metadata'})
+    return evidence
 
 
 class Vision:
@@ -84,11 +116,15 @@ class Vision:
         result = interpret(words, {key:bool(value) for key,value in matches.items()})
         if result['state'] == 'stage_ready':
             header = self.recognize('OCR',JOCR(roi=(750,65,500,100),threshold=.8),image)
-            for word in header.raw_detail.get('all',[]):
-                if word.get('score',0) >= .8 and re.fullmatch(r'(?:[A-Z]+\d*|\d+)-[\d|Il]+',word.get('text','')):
-                    prefix,separator,suffix = word['text'].rpartition('-')
-                    normalized = prefix + separator + suffix.translate(str.maketrans({'|':'1','I':'1','l':'1'}))
-                    words.append({**word,'text':normalized,'source_text':word['text'],'source':'stage_header_ocr'})
+            if not hasattr(self, '_stage_metadata'):
+                overview = {}
+                for root in (self.settings.data / 'resource', self.settings.data / 'MaaResource/resource'):
+                    try:
+                        overview.update(json.loads((root / 'Arknights-Tile-Pos/overview.json').read_text(encoding='utf-8')))
+                    except (OSError, ValueError):
+                        pass  # OCR remains available when optional map metadata is absent.
+                self._stage_metadata = list(overview.values())
+            words.extend(stage_header_evidence(words + header.raw_detail.get('all', []), self._stage_metadata))
             result = interpret(words,{key:bool(value) for key,value in matches.items()})
         if result['state'] == 'navigable_page':
             # Hard-stage red/black badges can disappear in full-screen OCR.

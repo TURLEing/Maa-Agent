@@ -16,15 +16,34 @@ def compact(value):
     return value
 
 
+def validate_screen_action(action):
+    """Validate game-space rectangles, never desktop coordinates."""
+    fields = ('rect',) if action.get('type') == 'Click' else ('begin', 'end')
+    for field in fields:
+        rect = action.get(field)
+        if not isinstance(rect, list) or len(rect) != 4 or any(type(n) is not int for n in rect):
+            raise ValueError(f'{field} must be four integers [x, y, width, height]')
+        x, y, width, height = rect
+        if not (x >= 0 and y >= 0 and width > 0 and height > 0 and x + width <= 1280 and y + height <= 720):
+            raise ValueError(f'{field} must stay within the normalized 1280x720 game capture')
+    if action.get('type') == 'Swipe' and 'duration' in action:
+        duration = action['duration']
+        if type(duration) is not int or duration <= 0:
+            raise ValueError('Swipe duration must be a positive integer in milliseconds')
+
+
 def copilot_request(path):
     path = Path(path).resolve()
     content = json.loads(path.read_text(encoding='utf-8'))
     if not content.get('stage_name') or not content.get('actions'):
         raise ValueError('A copilot stage_name and actions are required')
     # A weak agent must not accidentally submit a task file or external command action.
-    allowed = {'Deploy','Retreat','Skill','SkillUsage','SpeedUp','SwitchSpeed','BulletTime','Output','SkillDaemon'}
+    allowed = {'Deploy','Retreat','Skill','SkillUsage','SpeedUp','SwitchSpeed','BulletTime','Output','SkillDaemon','Click','Swipe'}
     if any(a.get('type', 'Deploy') not in allowed for a in content['actions']):
         raise ValueError('Unsupported action type; review this copilot before execution')
+    for action in content['actions']:
+        if action.get('type') in ('Click', 'Swipe'):
+            validate_screen_action(action)
     return {'tasks':[{'name':'AgentCopilot','type':'Copilot','params':{
         'filename':str(path),'formation':True,'formation_index':4,'support_unit_usage':0,
         'ignore_requirements':False,'use_sanity_potion':False}}]}, content['stage_name']

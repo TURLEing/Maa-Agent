@@ -10,7 +10,7 @@ def interpret(words, flags=None):
     state = 'unknown'
     if '作战简报' in compact and '已歼灭' in compact:
         state = 'battle_report'
-    elif '行动失败' in compact or 'MISSIONFAILED' in compact.upper():
+    elif '行动失败' in compact or '任务失败' in compact or 'MISSIONFAILED' in compact.upper():
         state = 'failure'
     elif '行动结束' in compact or 'MISSIONRESULTS' in compact.upper():
         state = 'settlement'
