@@ -8,11 +8,15 @@ From the checkout root, using your configured maa-cli:
 
 ```powershell
 New-Item -ItemType Directory -Force debug | Out-Null
-maa run ./tasks/scan-operators.json --batch -vv --log-file=./debug/operators-new.log
+maa run "$((Get-Location).Path)/tasks/scan-operators.json" --batch -vv --log-file=./debug/operators-new.log
 .venv\Scripts\python.exe scripts/operator_roster.py refresh-catalog
 .venv\Scripts\python.exe scripts/operator_roster.py import-scan debug/operators-new.log
 .venv\Scripts\python.exe scripts/operator_roster.py query OPERATOR_NAME
 ```
+
+For macOS, use the equivalent Bash commands in [macOS deployment](macos.md#首次干员扫描).
+Pass an absolute task path: maa-cli resolves relative paths under its own config
+directory, not the current checkout.
 
 The catalog is downloaded from PRTS. Its content remains upstream material.
 Import accepts a complete scan and rejects reduced coverage. Results are local:

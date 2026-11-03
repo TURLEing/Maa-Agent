@@ -206,7 +206,9 @@ class Vision:
                 return observation
             if state == 'in_battle':
                 raise ValueError('battle_active: home recovery does not abandon combat')
-            if state in ('settlement','battle_report','failure'):
+            if '离开罗德岛基建' in observation.get('recognized_text', ''):
+                wait(self.controller.post_click(843,495))
+            elif state in ('settlement','battle_report','failure'):
                 wait(self.controller.post_click(1200,620))
             elif observation['matches'].get('home_entry'):
                 self.click_match(observation['matches']['home_entry'])

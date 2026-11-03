@@ -55,6 +55,10 @@ def main():
         sys.stdout.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description='Evidence-based MAA tools. Outputs JSON; never uses computer-use.')
     sub = parser.add_subparsers(dest='command',required=True)
+    sub.add_parser('doctor', help='Check deployment, resources and ADB without game inputs')
+    setup = sub.add_parser('setup-macos', help='Create a MuMu ADB profile without overwriting existing configuration')
+    setup.add_argument('--address', help='Explicit ADB address for the desired MuMu instance')
+    setup.add_argument('--mumutool', default='/Applications/MuMuPlayer.app/Contents/MacOS/mumutool')
     sub.add_parser('observe')
     sub.add_parser('home')
     stage = sub.add_parser('stage',help='Open a stage from its current chapter map')
@@ -87,7 +91,13 @@ def main():
         if args.command == '_worker':
             worker(args.run_id)
             return
-        if args.command == 'poll':
+        if args.command == 'setup-macos':
+            from .macos import setup
+            result = setup(args.address, args.mumutool)
+        elif args.command == 'doctor':
+            from .doctor import diagnose
+            result = diagnose()
+        elif args.command == 'poll':
             result = poll(args.run_id)
             if args.observe:
                 from .vision import Vision

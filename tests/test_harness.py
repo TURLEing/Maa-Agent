@@ -16,6 +16,36 @@ def word(text,x=900,y=100,w=100,score=.99):
 
 
 class StateTests(unittest.TestCase):
+    def test_home_confirms_only_the_specific_base_exit_prompt(self):
+        vision = Vision.__new__(Vision)
+        vision.observe = Mock(side_effect=[{'state':'unknown','recognized_text':'是否确认离开罗德岛基建？'},
+                                           {'state':'home'}])
+        vision.controller = Mock()
+        vision.controller.post_click.return_value = Mock(done=True,succeeded=True)
+        with patch('maa_agent.vision.time.sleep'):
+            self.assertEqual(vision.home()['state'], 'home')
+        vision.controller.post_click.assert_called_once_with(843,495)
+
+    def test_default_home_can_corroborate_unreadable_headhunt_with_depot_and_management(self):
+        words = [word('公开招募', 952, 479), word('干员', 950, 313),
+                 word('角色管理', 956, 367), word('编队', 728, 315),
+                 word('基建', 940, 554), word('仓库', 1144, 574)]
+        self.assertEqual(interpret(words)['state'], 'home')
+        self.assertEqual(interpret(words[:-1])['state'], 'unknown')
+        self.assertEqual(interpret([w for w in words if w['text'] != '角色管理'])['state'], 'unknown')
+
+    def test_themed_home_uses_multiple_cards_when_depot_ocr_is_missing(self):
+        words = [word('公开招募', 990, 480), word('干员寻访', 1140, 500),
+                 word('编队', 720, 380), word('干员角色管理', 945, 385), word('基建', 945, 620)]
+        self.assertEqual(interpret(words)['state'], 'home')
+        self.assertEqual(interpret(words[:-1])['state'], 'home')
+        self.assertEqual(interpret(words[:3])['state'], 'unknown')
+        shifted = [{**w, 'box': [100, 100, 100, 25]} for w in words]
+        self.assertEqual(interpret(shifted)['state'], 'unknown')
+        weak = [{**w, 'score': .6} if w['text'] == '公开招募' else w for w in words]
+        self.assertEqual(interpret(weak)['state'], 'unknown')
+        self.assertEqual(interpret(words, {'battle': True})['state'], 'in_battle')
+
     def test_chinese_mission_failure(self):
         result = interpret([word('任务失败')])
         self.assertEqual(result['state'], 'failure')

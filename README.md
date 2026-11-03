@@ -9,7 +9,7 @@
 基于 maa-cli 与 MaaFramework 的明日方舟 Agent 工具集
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-0078D4)
 ![Status](https://img.shields.io/badge/Status-Alpha-orange)
 [![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](./LICENSE)
 
@@ -39,9 +39,22 @@ Maa-Agent 为能够执行本地命令的 Agent 提供观察游戏、维护干员
 
 安装 Python（已测试 3.13）、模拟器与游戏、ADB，以及官方 [maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 和 MAA Core 资源。自行登录游戏，配置 maa-cli 的 `default` JSON profile，确保它能连接模拟器。
 
-当前验证环境为 **Windows + MuMu + 国服**；已测试 maa-cli 0.7.5、MAA Core 6.20.1、MaaFramework 5.14.3。配置字段与路径覆盖方式见 [配置说明](./docs/configuration.md)。
+已验证 **Windows + MuMu + 国服**，并支持 **macOS Apple Silicon + MuMu** 部署。
+Windows 验证版本为 maa-cli 0.7.5 / MAA Core 6.20.1；macOS 为 maa-cli 0.7.5 /
+MAA Core 6.21.1，两者均使用 MaaFramework 5.14.3。具体验证范围见
+[macOS 部署指南](./docs/macos.md)，配置字段与路径覆盖方式见 [配置说明](./docs/configuration.md)。
 
 ### 2. 安装并观察游戏
+
+**macOS（Apple Silicon + MuMu）**：参照 [macOS 部署指南](./docs/macos.md)，在仓库根目录运行：
+
+```bash
+bash scripts/setup_macos.sh
+.venv/bin/python -m maa_agent doctor
+.venv/bin/python -m maa_agent observe
+```
+
+**Windows**：
 
 ```powershell
 git clone https://github.com/TURLEing/Maa-Agent.git
@@ -73,6 +86,8 @@ Maa-Agent 本身不内置模型，也不要求模型服务密钥；Agent 由你�
 
 | 命令 | 用途 |
 | --- | --- |
+| `doctor` | 检查本机部署、资源和 ADB 连接 |
+| `setup-macos [--address ADDRESS]` | 发现 MuMu 实例并创建连接配置，保留已有配置 |
 | `observe` / `verify` | 观察页面 / 核验结果 |
 | `home` / `stage CODE` | 返回主页 / 在当前章节地图寻找关卡 |
 | `annihilation --expected-stage NAME` | 进入并核对剿灭关卡 |

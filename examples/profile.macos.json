@@ -1,0 +1,12 @@
+{
+  "connection": {
+    "preset": "ADB",
+    "adb_path": "/opt/homebrew/bin/adb",
+    "address": "127.0.0.1:PORT",
+    "config": "CompatMac"
+  },
+  "instance_options": {
+    "touch_mode": "MaaTouch",
+    "kill_adb_on_exit": false
+  }
+}

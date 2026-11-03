@@ -9,7 +9,7 @@
 An Arknights agent toolkit built on maa-cli and MaaFramework
 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)
-![Platform](https://img.shields.io/badge/Platform-Windows-0078D4)
+![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS-0078D4)
 ![Status](https://img.shields.io/badge/Status-Alpha-orange)
 [![License](https://img.shields.io/badge/License-AGPL--3.0-blue)](./LICENSE)
 
@@ -39,9 +39,24 @@ Our ultimate vision is to adapt strategies to your own roster, complete event st
 
 Install Python (tested with 3.13), an emulator and the game, ADB, and official [maa-cli](https://github.com/MaaAssistantArknights/maa-cli) with MAA Core resources. Log into the game yourself. Configure maa-cli's `default` JSON profile and verify emulator connectivity.
 
-Validated on **Windows + MuMu + the Chinese game client**, with maa-cli 0.7.5, MAA Core 6.20.1, and MaaFramework 5.14.3. See [configuration](./docs/configuration.md) for profile fields and path overrides.
+Validated on **Windows + MuMu + the Chinese game client**, with deployment support
+for **macOS Apple Silicon + MuMu**. Tested versions: maa-cli 0.7.5, MaaFramework
+5.14.3, and MAA Core 6.20.1 (Windows) / 6.21.1 (macOS). See the
+[macOS guide](./docs/macos.md) for validation scope and [configuration](./docs/configuration.md)
+for profile fields and path overrides.
 
 ### 2. Install and observe
+
+On **macOS (Apple Silicon + MuMu)**, see the [deployment guide](./docs/macos.md).
+From the checkout root:
+
+```bash
+bash scripts/setup_macos.sh
+.venv/bin/python -m maa_agent doctor
+.venv/bin/python -m maa_agent observe
+```
+
+On **Windows**:
 
 ```powershell
 git clone https://github.com/TURLEing/Maa-Agent.git

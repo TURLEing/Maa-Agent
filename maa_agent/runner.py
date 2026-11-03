@@ -19,7 +19,7 @@ def run_folder(run_id):
 
 @contextmanager
 def device_lock():
-    RUNTIME.mkdir(exist_ok=True)
+    RUNTIME.mkdir(parents=True, exist_ok=True)
     with (RUNTIME / 'device.lock').open('a+b') as file:
         file.seek(0)
         if os.name == 'nt':
@@ -34,7 +34,10 @@ def device_lock():
                 raise ValueError('device_busy: another harness operation owns the device') from error
         else:
             import fcntl
-            fcntl.flock(file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            try:
+                fcntl.flock(file, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as error:
+                raise ValueError('device_busy: another harness operation owns the device') from error
         try:
             if os.name == 'nt':
                 output = subprocess.check_output(['tasklist','/FI','IMAGENAME eq maa.exe','/FO','CSV','/NH'], encoding='utf-8', errors='replace', creationflags=subprocess.CREATE_NO_WINDOW)
@@ -53,7 +56,8 @@ def execute(settings, task, folder, timeout=180):
     write_json(folder / 'task.json', task)
     with (folder / 'cli.log').open('wb') as log:
         process = subprocess.Popen([str(settings.cli), 'run', str(folder / 'task.json'), '--batch', '-v', '-p', settings.profile, '-a', settings.device],
-                                   stdout=log, stderr=log, creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
+                                   stdout=log, stderr=log, env=settings.cli_environment(),
+                                   creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0))
         deadline = time.monotonic() + timeout
         reason = None
         try:
@@ -87,7 +91,8 @@ def start_job(task, context, timeout):
     write_json(folder / 'result.json', {'run_id':run_id,'executor':'queued','game_result':'unknown'})
     with (folder / 'worker.log').open('wb') as output:
         process = subprocess.Popen([sys.executable,'-m','maa_agent','_worker',run_id], stdout=output, stderr=output,
-                                   creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0), cwd=str(Path(__file__).resolve().parents[1]))
+                                   creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0), start_new_session=os.name != 'nt',
+                                   cwd=str(Path(__file__).resolve().parents[1]))
     return {'run_id':run_id, 'executor':'queued', 'worker_pid':process.pid, 'next':'poll'}
 
 

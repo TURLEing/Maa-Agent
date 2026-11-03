@@ -7,6 +7,20 @@ def interpret(words, flags=None):
     words = [w for w in words if w.get('score', 0) >= .75 and w.get('text')]
     text = '\n'.join(w['text'] for w in words)
     compact = re.sub(r'\s', '', text)
+    # Home themes can obscure individual labels. Corroborate recruitment with
+    # multiple independent home cards in their normalized screen regions.
+    def home_label(label, left, top, right, bottom):
+        return any(label in w['text'] and left <= w['box'][0] < right
+                   and top <= w['box'][1] < bottom for w in words)
+
+    recruitment_entry = (home_label('干员寻访', 1000, 400, 1280, 570)
+                         or (home_label('仓库', 1100, 530, 1280, 680)
+                             and home_label('角色管理', 900, 300, 1280, 440)))
+    themed_home = (home_label('公开招募', 900, 400, 1280, 570)
+                   and recruitment_entry
+                   and sum((home_label('编队', 650, 300, 940, 440),
+                            home_label('干员', 900, 300, 1280, 440),
+                            home_label('基建', 900, 530, 1180, 680))) >= 2)
     state = 'unknown'
     if '作战简报' in compact and '已歼灭' in compact:
         state = 'battle_report'
@@ -18,7 +32,7 @@ def interpret(words, flags=None):
         state = 'in_battle'
     elif flags.get('stars_3') or flags.get('stars_2'):
         state = 'settlement'
-    elif all(t in compact for t in ['公开招募', '干员寻访', '仓库']):
+    elif all(t in compact for t in ['公开招募', '干员寻访', '仓库']) or themed_home:
         state = 'home'
     elif '开始行动' in compact and ('敌方情报' in compact or '地图' in compact):
         state = 'stage_ready'
