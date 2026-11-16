@@ -55,7 +55,8 @@ def main():
         sys.stdout.reconfigure(encoding='utf-8')
     parser = argparse.ArgumentParser(description='Evidence-based MAA tools. Outputs JSON; never uses computer-use.')
     sub = parser.add_subparsers(dest='command',required=True)
-    sub.add_parser('doctor', help='Check deployment, resources and ADB without game inputs')
+    doctor = sub.add_parser('doctor', help='Check deployment, resources and ADB without game inputs')
+    doctor.add_argument('--observe', action='store_true', help='Also capture the game and check OCR')
     setup = sub.add_parser('setup-macos', help='Create a MuMu ADB profile without overwriting existing configuration')
     setup.add_argument('--address', help='Explicit ADB address for the desired MuMu instance')
     setup.add_argument('--mumutool', default='/Applications/MuMuPlayer.app/Contents/MacOS/mumutool')
@@ -96,7 +97,7 @@ def main():
             result = setup(args.address, args.mumutool)
         elif args.command == 'doctor':
             from .doctor import diagnose
-            result = diagnose()
+            result = diagnose(observe=args.observe)
         elif args.command == 'poll':
             result = poll(args.run_id)
             if args.observe:

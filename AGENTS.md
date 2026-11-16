@@ -3,6 +3,12 @@
 Read README.md first. Use the local virtual environment and CLI JSON interface.
 No model provider credentials are required by this project.
 
+Use `doctor` for configuration, maa-cli, resource, ADB, and device checks. Each
+check reports `passed`, `failed`, or `skipped`. Failed checks include repair hints.
+Exit code 0 means the performed checks passed, and 1 indicates a failure.
+`doctor --observe` also captures the game and runs OCR when the environment
+checks pass. It saves observation evidence locally and performs read operations.
+
 1. Observe the game and establish the current account before planning a battle.
 2. Before choosing a team, follow docs/onboarding.md to create a complete roster.
    Never assume an absent record means an operator is unowned. Unknown skills,
@@ -28,6 +34,13 @@ No model provider credentials are required by this project.
 
 Default evidence is .runtime/ in this checkout; MAA_AGENT_RUNTIME_DIR overrides it.
 Keep generated rosters, screenshots, logs and local configuration out of commits.
+
+`poll` includes a `handoff` summary with task context, parent run ID, executor and
+game outcome, evidence paths, and the last saved observation's phase and time.
+Check whether that observation is from before or after execution. Use
+`poll RUN_ID --observe` to obtain the current game state before choosing recovery
+actions. Older runs can recover context from request.json, with warnings if that
+file cannot be read. Observations are saved during preflight and settlement waits.
 
 ## Plan once, let MAA execute, verify milestones
 

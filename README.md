@@ -27,6 +27,8 @@ Maa-Agent 为能够执行本地命令的 Agent 提供观察游戏、维护干员
 
 ## 亮点功能
 
+- **环境诊断** — 逐项检查配置、MAA、识别资源和设备连接，返回具体修复提示；可额外验证截图与 OCR。
+- **恢复证据** — 查询任务时汇总上下文、父任务、最后观测和日志路径，方便 Agent 处理执行中断。
 - **观察游戏**：输出截图、OCR 与页面判断，让 Agent 在操作前确认现场。
 - **维护干员档案**：通过 MAA 扫描已有干员，结合 PRTS 元数据整理名字、等级、精英阶段和职业分支，保留完整档案与精二列表。
 - **在线抄作业**：支持 Agent 在线到作业网站寻找作业，并根据你的干员档案调整配队与作业，再执行战斗。
@@ -61,6 +63,7 @@ git clone https://github.com/TURLEing/Maa-Agent.git
 cd Maa-Agent
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -e .
+.venv\Scripts\python.exe -m maa_agent doctor
 .venv\Scripts\python.exe -m maa_agent observe
 ```
 
@@ -86,7 +89,7 @@ Maa-Agent 本身不内置模型，也不要求模型服务密钥；Agent 由你�
 
 | 命令 | 用途 |
 | --- | --- |
-| `doctor` | 检查本机部署、资源和 ADB 连接 |
+| `doctor [--observe]` | 检查环境并提供修复提示；`--observe` 额外检查截图与 OCR |
 | `setup-macos [--address ADDRESS]` | 发现 MuMu 实例并创建连接配置，保留已有配置 |
 | `observe` / `verify` | 观察页面 / 核验结果 |
 | `home` / `stage CODE` | 返回主页 / 在当前章节地图寻找关卡 |
@@ -101,6 +104,8 @@ Maa-Agent 本身不内置模型，也不要求模型服务密钥；Agent 由你�
 
 ## 当前进展
 
+- [x] 环境诊断与逐项修复提示
+- [x] 任务恢复证据汇总与观测及时保存
 - [x] 游戏截图、OCR 与页面识别
 - [x] 干员扫描、档案维护与精二列表
 - [x] Agent 在线寻找作业，并结合干员档案调整配队与作业

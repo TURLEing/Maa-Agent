@@ -27,6 +27,8 @@ Our ultimate vision is to adapt strategies to your own roster, complete event st
 
 ## Features
 
+- **Environment diagnostics** — check configuration, MAA, recognition resources, and device connectivity with actionable repair hints. Optionally validate capture and OCR.
+- **Recovery evidence** — polling includes task context, parent run, the last saved observation, and log paths to help agents handle interruptions.
 - **Game observation**: screenshots, OCR, and page classification help agents inspect the game before acting.
 - **Operator records**: scan owned operators through MAA and combine PRTS metadata with names, levels, elite phases, classes, and subclasses. Retain both the full roster and an Elite 2 list.
 - **Community strategies**: let your agent find strategies on community websites, adapt their teams and battle plans to your operator roster, and execute them in-game.
@@ -63,6 +65,7 @@ git clone https://github.com/TURLEing/Maa-Agent.git
 cd Maa-Agent
 python -m venv .venv
 .venv\Scripts\python.exe -m pip install -e .
+.venv\Scripts\python.exe -m maa_agent doctor
 .venv\Scripts\python.exe -m maa_agent observe
 ```
 
@@ -88,6 +91,7 @@ Run `python -m maa_agent --help` for full arguments.
 
 | Command | Purpose |
 | --- | --- |
+| `doctor [--observe]` | Check the environment with repair hints; `--observe` also checks capture and OCR |
 | `observe` / `verify` | Observe the page / verify the outcome |
 | `home` / `stage CODE` | Return home / find a stage on the current chapter map |
 | `annihilation --expected-stage NAME` | Open and check an annihilation stage |
@@ -101,6 +105,8 @@ Run `python -m maa_agent --help` for full arguments.
 
 ## Progress
 
+- [x] Environment diagnostics with per-check repair hints
+- [x] Recovery evidence summaries and incremental observation persistence
 - [x] Game screenshots, OCR, and page recognition
 - [x] Operator scanning, roster records, and an Elite 2 list
 - [x] Agent-led online strategy search and roster-based team and strategy adjustments
